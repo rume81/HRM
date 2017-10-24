@@ -1,0 +1,132 @@
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width:
+	667px) {
+	.no-padding-mb {
+		padding: 0;
+	}
+	.front_page {
+		background-image: url("../../images/hawks-bg-Phone.png");
+		background-position: bottom right;
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		text-align: center;
+	}
+	.front_page .logo {
+		margin-bottom: 15%;
+		float: left;
+		width: 100%;
+	}
+	.login_form input[type="text"], .login_form input[type="password"],
+		.login_button {
+		width: 200px;
+		height: 40px;
+		border-radius: 3px;
+		text-indent: 10%;
+		margin-top: 20px;
+		margin-left: 0;
+		border: 1px solid #989898;
+		font-size: 20px;
+	}
+	.login_admin input[type="text"], .login_admin select {
+		width: 200px;
+		height: 40px;
+		border: 1px solid #0B7DBB;
+		border-radius: 3px;
+		margin-left: 20px;
+		margin-bottom: 20px;
+		text-indent: 20px;
+	}
+	.login_form input[type="text"] {
+		background: rgba(0, 0, 0, 0) url("../../images/user.png") no-repeat
+			scroll 5px center;
+		background-size: 22px 22px;
+	}
+	.login_form input[type="password"] {
+		background: rgba(0, 0, 0, 0) url("../../images/password.png") no-repeat
+			scroll 5px center;
+		background-size: 22px 22px;
+	}
+	.forgot_password {
+		font-size: 16px;
+		color: #76777B;
+	}
+	.front_copyright {
+		font-size: 12px;
+		text-align: center;
+	}
+	input::-moz-placeholder { /* Firefox 18- */
+		font-size: 14px !important;
+	}
+	.login-button-img {
+		width: 20px;
+	}
+	.footer-logo-mobile {
+		margin: 0 auto;
+	}
+	.dashboard_top li {
+		width: 50%;
+	}
+	.dashboard_bottom li {
+		width: 50%;
+	}
+	.logout img {
+		margin-top: 0;
+		width: 30px;
+		margin-right: 20px;
+	}
+	.logout {
+		width: 100% !important;
+		height: 40px !important;
+	}
+	.logout span {
+		color: #000;
+		font-weight: bold;
+	}
+	.profile_round_img {
+		margin-top: 0;
+	}
+	.hr-header img {
+		margin: 0 auto;
+		padding-bottom: 30px;
+	}
+	.p_designation {
+		padding-left: 0px;
+	}
+	.emp_profile p {
+		margin: 15px 0 10px;
+	}
+	.form-control {
+		margin-bottom: 10px;
+	}
+	.notice-right {
+		margin-right: 0;
+	}
+	.carousel-control {
+		font-size: 16px;
+	}
+	.glyphicon.glyphicon-chevron-right, .glyphicon.glyphicon-chevron-left {
+		height: 30px;
+		padding-top: 5px;
+		width: 30px;
+	}
+	.notice-modal .modal-dialog {
+		margin: 170px auto 30px;
+		width: 310px;
+	}
+	.modal-close {
+		border-right: 0;
+	}
+	.attendance_table th {
+		font-size: 15px;
+	}
+	.attendance-date {
+		margin-bottom: 20px;
+	}
+	.leave-button-group button {
+		margin: 2%;
+		width: 46%;
+	}
+}
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (max-width : 768px) {
+}

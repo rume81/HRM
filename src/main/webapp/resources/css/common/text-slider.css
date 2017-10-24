@@ -1,0 +1,121 @@
+.notification-slider {
+  margin: 0 auto;
+  width: 90%;
+  padding: 50px 0;
+  overflow: hidden;
+}
+.notice-left, .notice-right {
+  border: 3px solid #ddd;
+  padding: 10px 30px 20px;
+}
+.notification-slider .carousel-control.left, .notification-slider .carousel-control.right {
+  background-image: none;
+}
+.notice-right {
+  float: right;
+  margin-right: 9%;
+}
+.notification-slider .carousel-indicators li {
+    border: 1px solid #0FB18A;
+}
+.notification-slider h3 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 22px;
+    padding-bottom: 10px;
+}
+.notification-slider p {
+    font-size: 16px;
+    text-align: justify;
+}
+.create-notice {
+  margin: 0 auto;
+  width: 90px;
+  text-align: center;
+}
+.notice-modal .modal-dialog {
+  margin: 70px auto 30px;
+  width: 852px;
+}
+.notice-modal .modal-content {
+    padding: 30px 20px;
+    border-radius: 60px;
+}
+.notice-modal .modal-title {
+  font-size: 27px;
+  font-weight: bold;
+  text-align: center;
+}
+.notice-modal .modal-header {
+  border-bottom: medium none;
+}
+.notice-modal label {
+  font-size: 17px;
+  font-weight: normal;
+  padding-bottom: 10px;
+  float: left;
+}
+.notice-modal .form-control {
+  background-color: #eee;
+  border: medium none;
+  border-radius: 12px;
+  padding-left: 20px;
+  padding-top: 0;
+}
+.notice-modal .modal-footer {
+  border-top: none;
+}
+.modal-close button {
+  float: left;
+  border: none;
+  font-size: 19px;
+}
+.modal-accept button {
+    border: none;
+    font-size: 19px;
+}
+.modal-close .glyphicon-remove {
+  border: 1px solid red;
+  border-radius: 50%;
+  color: red;
+  float: left;
+  font-size: 20px;
+  font-weight: 100;
+  margin-right: 15px;
+  padding: 6px;
+}
+
+.modal-close {
+  border-right: 5px solid #333;
+}
+.modal-accept .glyphicon-ok {
+  border: 1px solid #009A00;
+  border-radius: 50%;
+  color: #009A00;
+  float: left;
+  font-size: 20px;
+  font-weight: 100;
+  margin-right: 15px;
+  padding: 6px;
+}
+.notice-modal .modal-footer {
+    text-align: left;
+}
+.modal-accept {
+  padding-left: 40px;
+}
+.glyphicon.glyphicon-chevron-right,  .glyphicon.glyphicon-chevron-left{
+  border: 1px solid #000;
+  border-radius: 50%;
+  color: #000;
+  font-weight: normal;
+  height: 40px;
+  padding-top: 2px;
+  width: 40px;
+}
+.glyphicon.glyphicon-chevron-right {
+    margin-right: -20px;
+}
+.glyphicon.glyphicon-chevron-left {
+    margin-left: -25px;
+}

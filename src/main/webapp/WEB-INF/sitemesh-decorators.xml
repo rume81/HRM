@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/views/decorators">
+    <excludes>
+    	<pattern>*.html</pattern>
+    	<pattern>/login</pattern>
+    	<pattern>/splash</pattern>
+    	<pattern>/users/valideduser</pattern>
+    	<pattern>/getteammember</pattern>
+    	<pattern>/viewDetails</pattern>
+    	<pattern>/register_employee</pattern>
+    	<pattern>/edit_employee</pattern>
+    	<pattern>/edit_employee_photo</pattern>
+    	<pattern>/edit_employee_appoinment</pattern>
+    	<pattern>/edit_employee_nda</pattern>
+    	<pattern>/add_notice</pattern>
+    	<pattern>/getQuota</pattern>
+    	<pattern>/calculateLeave</pattern>
+    	<pattern>/addleaverequest</pattern>
+    	<pattern>/searchattendance</pattern>
+    	<pattern>/searchleave</pattern>
+    	<pattern>/salarybrackdown</pattern>
+    	<pattern>/editpayslip</pattern>
+    	<pattern>/deletepayslip</pattern>
+    	<pattern>/searchpayslip</pattern>
+    </excludes>
+
+    <decorator name="main" page="/main.dec">
+          <pattern>/*</pattern>
+    </decorator>
+</decorators>
