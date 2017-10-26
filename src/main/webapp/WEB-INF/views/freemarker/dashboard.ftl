@@ -37,45 +37,46 @@
                     
                 </li>
                 </a>
+                <a href="${rc.contextPath}/holidays">
                 <li class="holidays">
-                    <a href="${rc.contextPath}/holidays">
                         <p class="dashboard_heading">Holidays</p>
                         <img src="images/holidays.png" alt="" />
                         <p>02 Holidays on this month</p>
                         <p>Do you have any weekend plan?</p>
-                    </a>
                 </li>
+                </a>
+                <a href="">
                 <li class="onboading">
-                    <a href="">
                         <p class="dashboard_heading">On Boarding</p>
                         <img src="images/onboard.png" alt="" />
                         <p>Tells us your need</p>
-                    </a>
                 </li>
+                </a>
             </ul>
             <ul class="dashboard_bottom no_padding">
+            	<a href="#">
                 <li class="message">
-                    <a href="#">
                         <p class="dashboard_heading">Message</p>
                         <p><img src="images/message.png" alt="" />Come to my desk</p>
                         <p class="message_notication">16</p>
-                    </a>
                 </li>
+                </a>
+                <a href="#">
                 <li class="notifier">
-                    <a href="#">
                         <p class="dashboard_heading">Notifier</p>
                         <img src="images/notifier.png" alt="" />
                         <p>10:30am <br/> Meeting with US client </p>
                         <p class="notifier_notification">05</p>
-                    </a>
                 </li>
+                </a>
+                <a href="#">
                 <li class="performance">
-                    <a href="#">
                         <p class="dashboard_heading">Performance</p>
                         <img src="images/performance.png" alt="" />
                         <p>Prove yourself as a good human being</p>
-                    </a>
+                    
                 </li>
+                </a>
                 <a href="${rc.contextPath}/payslip">
                 <li class="payslip">
                         <p class="dashboard_heading">Pay Slip</p>
@@ -84,14 +85,14 @@
                         <p class="payslip_notification">01</p>
                 </li>
                 </a>
+                <a href="${rc.contextPath}/policy">
                 <li class="hrpolicy">
-                    <a href="#">
                         <p class="dashboard_heading">HR Policy</p>
                         <img src="images/hr.png" alt="" />
                         <p>Welcome to</p>
                         <!--<img src="images/" alt="" />-->
-                    </a>
                 </li>
+                </a>
                 <li class="logout">
                 	<#if currentuser.usertype=="Admin" || currentuser.usertype=="Talent Manager">
                 	<a href="${rc.contextPath}/employeeselection">

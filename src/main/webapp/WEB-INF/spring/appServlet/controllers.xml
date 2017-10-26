@@ -95,6 +95,15 @@
 		</property>
 	</bean>
 	
+	<bean class="com.webhawks.hr.controller.HrPolicyController">
+		<property name="sessionService">
+			<ref bean="sessionService" />
+		</property>
+		<property name="whrService">
+			<ref bean="whrService" />
+		</property>
+	</bean>
+	
 	<!-- Service Declaration End-->
 	<!-- All Controllers End-->
 	<bean id="userSession" class="com.webhawks.hr.model.UserSession" scope="session">
