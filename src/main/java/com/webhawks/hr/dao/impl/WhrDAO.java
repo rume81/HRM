@@ -26,8 +26,11 @@ import com.webhawks.Hawks_mapper.EmployeeResignationMapper;
 import com.webhawks.Hawks_mapper.HMonthlyStatusMapper;
 import com.webhawks.Hawks_mapper.NoticeMapper;
 import com.webhawks.Hawks_mapper.PaySlipMapper;
+import com.webhawks.Hawks_mapper.PolicyMapper;
 import com.webhawks.Hawks_mapper.SalaryDetailsMapper;
+import com.webhawks.Hawks_mapper.SalarySheetMapper;
 import com.webhawks.Hawks_mapper.SupportingDataMapper;
+import com.webhawks.Hawks_mapper.SysPropertyMapper;
 import com.webhawks.Hawks_mapper.TeamMapper;
 import com.webhawks.Hawks_mapper.TypesOfLeaveMapper;
 import com.webhawks.Hawks_model.HAttendance;
@@ -35,8 +38,11 @@ import com.webhawks.Hawks_model.HEmployee;
 import com.webhawks.Hawks_model.HEmployeeResignation;
 import com.webhawks.Hawks_model.HNotice;
 import com.webhawks.Hawks_model.HPaySlip;
+import com.webhawks.Hawks_model.HPolicy;
 import com.webhawks.Hawks_model.HSalaryDetails;
+import com.webhawks.Hawks_model.HSalarySheet;
 import com.webhawks.Hawks_model.HSupportingData;
+import com.webhawks.Hawks_model.HSysProperty;
 import com.webhawks.Hawks_model.HTeam;
 import com.webhawks.Hawks_model.HTypesOfLeave;
 
@@ -227,7 +233,7 @@ public class WhrDAO extends BaseDAO implements IWhrDAO {
 		    + obj.getDesignation2() + "','" + obj.getCompany() + "','" + obj.getDepartment() + "','"
 		    + obj.getOfficial_mail() + "','" + obj.getPersonal_email() + "','" + obj.getMobile() + "','"
 		    + obj.getRefferal_no() + "','" + obj.getJoin_date() + "','" + obj.getSkype_id() + "','"
-		    + obj.getPrv_work_place() + "','" + obj.getRpt_mgr() + "','" + obj.getBirthdate_real() + "','"
+		    + obj.getPrv_work_place() + "'," + obj.getRpt_mgr() + ",'" + obj.getBirthdate_real() + "','"
 		    + obj.getBirthdate_certificate() + "','" + obj.getEducation() + "','" + obj.getNid() + "','"
 		    + obj.getPassport() + "','" + obj.getMaritial_status() + "'," + obj.getNo_siblings() + ",'"
 		    + obj.getHobbies() + "','" + obj.getExtra_activitie() + "','" + obj.getEmergency_phone() + "','"
@@ -265,13 +271,21 @@ public class WhrDAO extends BaseDAO implements IWhrDAO {
 	    } else if (criteria.equals("nda")) {
 		strSql = new StringBuffer("UPDATE employeeprofile SET nda = '" + obj.getNda().getPath() + "' WHERE id="
 			+ obj.getEmp_id());
+	    } else if (criteria.equals("onboarding")) { 
+		strSql = new StringBuffer("CALL updateonboardinginfo(" + obj.getEmp_id() 
+		+ ",'" +obj.getJobtitle() + "','" + obj.getJobnature() 
+		+ "','" + obj.getWorkstation() + "','" + obj.getDesignation() 
+		+ "','" + obj.getResponsiblefor() + "','" + obj.getProbation_period() 
+		+ "','" + obj.getDepartment() + "','" + obj.getJoin_date() + "'," 
+		+ obj.getRpt_mgr() + ",'" + obj.getJob_desc() + "','" + obj.getModId()+ "')");
+		
 	    } else {
 		strSql = new StringBuffer("CALL updateEmployee(" + obj.getEmp_id() + ",'" + obj.getFirst_name() + "','"
 			+ obj.getLast_name() + "','" + obj.getAvator() + "','" + obj.getDesignation() + "','"
 			+ obj.getDesignation2() + "','" + obj.getCompany() + "','" + obj.getDepartment() + "','"
 			+ obj.getOfficial_mail() + "','" + obj.getPersonal_email() + "','" + obj.getMobile() + "','"
 			+ obj.getRefferal_no() + "','" + obj.getJoin_date() + "','" + obj.getSkype_id() + "','"
-			+ obj.getPrv_work_place() + "','" + obj.getRpt_mgr() + "','" + obj.getBirthdate_real() + "','"
+			+ obj.getPrv_work_place() + "'," + obj.getRpt_mgr() + ",'" + obj.getBirthdate_real() + "','"
 			+ obj.getBirthdate_certificate() + "','" + obj.getEducation() + "','" + obj.getNid() + "','"
 			+ obj.getPassport() + "','" + obj.getMaritial_status() + "'," + obj.getNo_siblings() + ",'"
 			+ obj.getHobbies() + "','" + obj.getExtra_activitie() + "','" + obj.getEmergency_phone() + "','"
@@ -724,7 +738,18 @@ public class WhrDAO extends BaseDAO implements IWhrDAO {
 
 	return ps;
     }
+    
+    public List<HSalarySheet> getSalarySheet(Integer mon, Integer year) {
+	List<HSalarySheet> ps = new ArrayList<HSalarySheet>();
+	try {
+	    ps = getJdbcService().getJdbcTemplate().query("CALL getSalarySheet("+mon+","+year+",false)",
+		    new SalarySheetMapper());
+	} catch (Exception ex) {
+	}
 
+	return ps;
+    }
+    
     @Override
     public HMonthlyStatus getMonthlyStatus(int mon, int year, int emp_id) {
 	HMonthlyStatus status = new HMonthlyStatus();
@@ -918,5 +943,98 @@ public class WhrDAO extends BaseDAO implements IWhrDAO {
 	    ex.printStackTrace();
 	}
 	return allHoliday;
+    }
+    
+    @Override
+    public int getMaxHolidayYear(){
+    	int year=0;
+    	
+    	try{
+    		year = getJdbcService().getJdbcTemplate().queryForInt("SELECT Max(holiday_year) FROM holiday WHERE deleted = false");
+    	} catch (Exception ex) {
+    	    ex.printStackTrace();
+    	}
+    	return year;
+    }
+    
+    @Override
+    public boolean addPolicy(HPolicy obj){
+	boolean fo = false;
+	try {
+
+	    StringBuffer strSql = new StringBuffer(
+		    "CALL insertpolicy('" + obj.getPolicy_name() + "','" + obj.getPolicy_file().getPath() + "'," + obj.getDeleted() + ",'" + obj.getModId() + "')");
+
+	    logger.info("insert policy Query - > " + strSql.toString());
+
+	    getJdbcService().getJdbcTemplate().execute(strSql.toString());
+
+	    fo = true;
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+
+	return fo;
+    }
+    
+    @Override
+    public List<HPolicy> getAllPolicy(boolean isDeleted){
+	List<HPolicy> policys = new ArrayList<HPolicy>();
+	try {
+	    policys = getJdbcService().getJdbcTemplate().query(
+			"SELECT * FROM policy WHERE DELETED = "+isDeleted+" ORDER BY policy_name",
+			new Object[] {}, new PolicyMapper());
+	    
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	}
+	return policys;
+    }
+    
+    @Override
+    public HPolicy getPolicy(int id){
+	HPolicy policy = new HPolicy();
+	try {
+	    policy = getJdbcService().getJdbcTemplate().queryForObject(
+			"SELECT * FROM policy WHERE id="+id+" AND DELETED = false",
+			new Object[] {}, new PolicyMapper());
+	    
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	}
+	return policy;
+    }
+    
+    @Override
+    public boolean deletePolicy(HPolicy ps) {
+	Boolean Fo = false;
+	try {
+	    StringBuffer strSql = new StringBuffer("UPDATE policy SET " + " deleted=" + ps.getDeleted()
+		    + ", modifierid='" + ps.getModId() + "' WHERE id=" + ps.getId());
+
+	    logger.info("update HPolicy Query - > " + strSql.toString());
+
+	    getJdbcService().getJdbcTemplate().execute(strSql.toString());
+
+	    Fo = true;
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+
+	return Fo;
+    }
+    
+    @Override
+    public HSysProperty getSysPropertyByName(String name){
+	HSysProperty sp = new HSysProperty();
+	try {
+	    sp = getJdbcService().getJdbcTemplate().queryForObject(
+			"SELECT * FROM sysproperty WHERE prop_name='"+name+"'",
+			new Object[] {}, new SysPropertyMapper());
+	    
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	}
+	return sp;
     }
 }

@@ -18,7 +18,7 @@ $(document).ready(function() {
 			</select>
 		</div>
 	    <div class="col-sm-3 attendance-header">
-	    	<h3>Pay Slip</h3>
+	    	<h3>Payroll</h3>
 	    </div>
 	    <div class="col-sm-1 back-button">
 	       <a href="${rc.contextPath}/dashboard"><img src="images/back_button.png" alt="" /></a>
@@ -30,14 +30,15 @@ $(document).ready(function() {
             <button type="button" class="btn btn-default leave-button" data-toggle="modal" data-target="#salaryModal">Salary Details</button>
             </#if>
             <#if user.usertype=="Talent Manager">
-            <button type="button" class="btn btn-default apply-leave-button" onclick="updatePayslip('${rc.contextPath}')">Update Pay Slip</button>
-            <button type="button" class="btn btn-default apply-leave-button" onclick="deletePayslip('${rc.contextPath}')">Delete Pay Slip</button>
+            <button type="button" class="btn btn-default leave-button" onclick="updatePayslip('${rc.contextPath}')">Update Pay Slip</button>
+            <button type="button" class="btn btn-default leave-button" onclick="deletePayslip('${rc.contextPath}')">Delete Pay Slip</button>
+            <button type="button" class="btn btn-default color-button" data-toggle="modal" data-target="#salarysheet">Download Salary Sheet</button>
             </#if>
             <form name="downlaodpayslip" id="downlaodpayslip" action="${rc.contextPath}/downlaodpayslip" method="get">
             	<input type="hidden" id="dow_emp_id" name="dow_emp_id" value="${emp.emp_id}"/>
 				<input type="hidden" id="dow_month" name="dow_month" value="${curmon}"/>
 			    <input type="hidden" id="dow_year" name="dow_year" value="${curyear}"/>
-            	<button type="submit" class="btn btn-default leave-button">Download Pay Slip</button>
+            	<button type="submit" class="btn btn-default color-button" id="btn_download" <#if slip.emp_id==0>disabled</#if>>Download Pay Slip</button>
             </form>
         </div>
         <div class="col-sm-9 payslip-div" id="payslipdiv">
@@ -49,7 +50,7 @@ $(document).ready(function() {
 			    	Flat No: 1st,5th,6th Floor,Avenue-12, Mirpur DOHS, Dhaka-1216,</br>
 			    	Bangladesh.  Phone: +880258070348</br>
 			    	Email: info@webhawksit.com
-			    	
+			    	<input type="hidden" id="slip_emp_id" name="slip_emp_id" value="${slip.emp_id}"/>
 			    	<input type="hidden" id="emp_id" name="emp_id" value="${emp.emp_id}"/>
 			    	<input type="hidden" id="month" name="month" value="${curmon}"/>
 			    	<input type="hidden" id="year" name="year" value="${curyear}"/>
@@ -510,124 +511,160 @@ $(document).ready(function() {
             </form>
         </div>
     </div>
-    <div class="col-xs-2 col-xs-offset-5">
-        <img src="images/front_logo_bottom.png" />
-        <p class="text-right front_copyright">&copy; All Rights Reserved</p>
-    </div>
-</div>
+    
 
-<!-- Leave Modal Start -->
-<div class="modal fade notice-modal leave_modal" id="salaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Salary Breakdown</h4>
-            </div>
-            <form name="salarydetails" id="salarydetails" action="${rc.contextPath}/salarybrackdown" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                    	<input type="hidden" id="salemp_id" name="salemp_id" value="${emp.emp_id?string["0"]}"/>
-                    	<input type="hidden" id="salid" name="salid" value="<#if activeSal?? && activeSal.salid??>${activeSal.salid}<#else>-1</#if>"/>
-                        <label class="control-label col-sm-4">Employee ID</label>
-                        <div class="col-sm-6">          
-                            <input type="text" class="form-control" id="salfinid" name="salfinid" value="<#if activeSal?? && activeSal.emp_finance_id??>${activeSal.emp_finance_id}</#if>"/>
-                            <input type="hidden" id="hidsalfinid" value="<#if activeSal?? && activeSal.emp_finance_id??>${activeSal.emp_finance_id}</#if>"/>
-                        </div>
-                        <div class="col-sm-2">
-                        	<span id="rfinid" class="salary-breakdown-required">* Required</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Gross Salary</label>
-                        <div class="col-sm-6">          
-                            <input type="text" class="form-control salary-breakdown-input" id="salgross" name="salgross" onkeypress='validate(event)' onblur="salaryBreakdown()" value="<#if activeSal?? && activeSal.gross??>${activeSal.gross}</#if>"/>
-                            <input type="hidden" id="hidsalgross" value="<#if activeSal?? && activeSal.gross??>${activeSal.gross}</#if>"/>
-                        </div>
-                        <div class="col-sm-2">
-                        	<span id="rgross" class="salary-breakdown-required">* Required</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Basic Salary</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control salary-breakdown-input" id="salbasic" name="salbasic" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.basic??>${activeSal.basic}</#if>"/>
-                            <input type="hidden" id="hidsalbasic" value="<#if activeSal?? && activeSal.basic??>${activeSal.basic}</#if>"/>    
-                        </div>
-                        <div class="col-sm-2">
-                        	<span id="rbasic" class="salary-breakdown-required">* Required</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Housing allowance</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control salary-breakdown-input" id="salhousing" name="salhousing" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.housing??>${activeSal.housing}</#if>"/>
-                            <input type="hidden" id="hidsalhousing" value="<#if activeSal?? && activeSal.housing??>${activeSal.housing}</#if>"/>    
-                        </div>
-                        <div class="col-sm-2">
-                        	<span id="rhousing" class="salary-breakdown-required">* Required</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Medical allowance</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control salary-breakdown-input" id="salmedical" name="salmedical" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.medical??>${activeSal.medical}</#if>"/>
-                            <input type="hidden" id="hidsalmedical" value="<#if activeSal?? && activeSal.medical??>${activeSal.medical}</#if>"/>    
-                        </div>
-                        <div class="col-sm-2">
-                        	<span id="rmedical" class="salary-breakdown-required">* Required</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Transportation</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control salary-breakdown-input" id="saltransport" name="saltransport" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.transport??>${activeSal.transport}</#if>"/>
-                            <input type="hidden" id="hidsaltransport" value="<#if activeSal?? && activeSal.transport??>${activeSal.transport}</#if>"/>    
-                        </div>
-                        <div class="col-sm-2">
-                        	<span id="rtransport" class="salary-breakdown-required">* Required</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Lunch Deduction</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control salary-breakdown-input" id="sallunch" name="sallunch" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.lunch??>${activeSal.lunch}</#if>"/>
-                            <input type="hidden" id="hidsallunch" value="<#if activeSal?? && activeSal.lunch??>${activeSal.lunch}</#if>"/>    
-                        </div>
-                        <div class="col-sm-2">
-                        	<span id="rlunch" class="salary-breakdown-required">* Required</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Tax Deduction</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control salary-breakdown-input" id="saltax" name="saltax" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.tax??>${activeSal.tax}</#if>"/>
-                            <input type="hidden" id="hidsaltax" value="<#if activeSal?? && activeSal.tax??>${activeSal.tax}</#if>"/>    
-                        </div>
-                        <div class="col-sm-2">
-                        	<span id="rtax" class="salary-breakdown-required">* Required</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Applied Date</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="salappdate" name="salappdate" value="<#if activeSal?? && activeSal.applieddate??>${activeSal.applieddate}</#if>"/>
-                            <input type="hidden" id="hidsalappdate" value="<#if activeSal?? && activeSal.applieddate??>${activeSal.applieddate}</#if>"/>    
-                        </div>
-                        <div class="col-sm-2">
-                        	<span id="rappdate" class="salary-breakdown-required">* Required</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="col-xs-6 modal-close">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel</button>
-                    </div>
-                    <div class="col-xs-6 modal-accept">
-                        <button type="button" class="btn btn-default" onclick="addSalary('${rc.contextPath}')"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Done</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!--Leave Modal End -->
+<!-- salary Modal Start -->
+<#if user.usertype=="Talent Manager">
+	<div class="modal fade notice-modal leave_modal" id="salaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title" id="myModalLabel">Salary Breakdown</h4>
+	            </div>
+	            <form name="salarydetails" id="salarydetails" action="${rc.contextPath}/salarybrackdown" method="post">
+	                <div class="modal-body">
+	                    <div class="form-group">
+	                    	<input type="hidden" id="salemp_id" name="salemp_id" value="${emp.emp_id?string["0"]}"/>
+	                    	<input type="hidden" id="salid" name="salid" value="<#if activeSal?? && activeSal.salid??>${activeSal.salid}<#else>-1</#if>"/>
+	                        <label class="control-label col-sm-4">Employee ID</label>
+	                        <div class="col-sm-6">          
+	                            <input type="text" class="form-control" id="salfinid" name="salfinid" value="<#if activeSal?? && activeSal.emp_finance_id??>${activeSal.emp_finance_id}</#if>"/>
+	                            <input type="hidden" id="hidsalfinid" value="<#if activeSal?? && activeSal.emp_finance_id??>${activeSal.emp_finance_id}</#if>"/>
+	                        </div>
+	                        <div class="col-sm-2">
+	                        	<span id="rfinid" class="salary-breakdown-required">* Required</span>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label col-sm-4">Gross Salary</label>
+	                        <div class="col-sm-6">          
+	                            <input type="text" class="form-control salary-breakdown-input" id="salgross" name="salgross" onkeypress='validate(event)' onblur="salaryBreakdown()" value="<#if activeSal?? && activeSal.gross??>${activeSal.gross}</#if>"/>
+	                            <input type="hidden" id="hidsalgross" value="<#if activeSal?? && activeSal.gross??>${activeSal.gross}</#if>"/>
+	                        </div>
+	                        <div class="col-sm-2">
+	                        	<span id="rgross" class="salary-breakdown-required">* Required</span>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label col-sm-4">Basic Salary</label>
+	                        <div class="col-sm-6">
+	                            <input type="text" class="form-control salary-breakdown-input" id="salbasic" name="salbasic" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.basic??>${activeSal.basic}</#if>"/>
+	                            <input type="hidden" id="hidsalbasic" value="<#if activeSal?? && activeSal.basic??>${activeSal.basic}</#if>"/>    
+	                        </div>
+	                        <div class="col-sm-2">
+	                        	<span id="rbasic" class="salary-breakdown-required">* Required</span>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label col-sm-4">Housing allowance</label>
+	                        <div class="col-sm-6">
+	                            <input type="text" class="form-control salary-breakdown-input" id="salhousing" name="salhousing" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.housing??>${activeSal.housing}</#if>"/>
+	                            <input type="hidden" id="hidsalhousing" value="<#if activeSal?? && activeSal.housing??>${activeSal.housing}</#if>"/>    
+	                        </div>
+	                        <div class="col-sm-2">
+	                        	<span id="rhousing" class="salary-breakdown-required">* Required</span>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label col-sm-4">Medical allowance</label>
+	                        <div class="col-sm-6">
+	                            <input type="text" class="form-control salary-breakdown-input" id="salmedical" name="salmedical" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.medical??>${activeSal.medical}</#if>"/>
+	                            <input type="hidden" id="hidsalmedical" value="<#if activeSal?? && activeSal.medical??>${activeSal.medical}</#if>"/>    
+	                        </div>
+	                        <div class="col-sm-2">
+	                        	<span id="rmedical" class="salary-breakdown-required">* Required</span>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label col-sm-4">Transportation</label>
+	                        <div class="col-sm-6">
+	                            <input type="text" class="form-control salary-breakdown-input" id="saltransport" name="saltransport" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.transport??>${activeSal.transport}</#if>"/>
+	                            <input type="hidden" id="hidsaltransport" value="<#if activeSal?? && activeSal.transport??>${activeSal.transport}</#if>"/>    
+	                        </div>
+	                        <div class="col-sm-2">
+	                        	<span id="rtransport" class="salary-breakdown-required">* Required</span>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label col-sm-4">Lunch Deduction</label>
+	                        <div class="col-sm-6">
+	                            <input type="text" class="form-control salary-breakdown-input" id="sallunch" name="sallunch" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.lunch??>${activeSal.lunch}</#if>"/>
+	                            <input type="hidden" id="hidsallunch" value="<#if activeSal?? && activeSal.lunch??>${activeSal.lunch}</#if>"/>    
+	                        </div>
+	                        <div class="col-sm-2">
+	                        	<span id="rlunch" class="salary-breakdown-required">* Required</span>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label col-sm-4">Tax Deduction</label>
+	                        <div class="col-sm-6">
+	                            <input type="text" class="form-control salary-breakdown-input" id="saltax" name="saltax" onkeypress='validate(event)' value="<#if activeSal?? && activeSal.tax??>${activeSal.tax}</#if>"/>
+	                            <input type="hidden" id="hidsaltax" value="<#if activeSal?? && activeSal.tax??>${activeSal.tax}</#if>"/>    
+	                        </div>
+	                        <div class="col-sm-2">
+	                        	<span id="rtax" class="salary-breakdown-required">* Required</span>
+	                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label col-sm-4">Applied Date</label>
+	                        <div class="col-sm-6">
+	                            <input type="text" class="form-control" id="salappdate" name="salappdate" value="<#if activeSal?? && activeSal.applieddate??>${activeSal.applieddate}</#if>"/>
+	                            <input type="hidden" id="hidsalappdate" value="<#if activeSal?? && activeSal.applieddate??>${activeSal.applieddate}</#if>"/>    
+	                        </div>
+	                        <div class="col-sm-2">
+	                        	<span id="rappdate" class="salary-breakdown-required">* Required</span>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="modal-footer">
+	                    <div class="col-xs-6 modal-close">
+	                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel</button>
+	                    </div>
+	                    <div class="col-xs-6 modal-accept">
+	                        <button type="button" class="btn btn-default" onclick="addSalary('${rc.contextPath}','payslip')"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Done</button>
+	                    </div>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+<!--Salary Modal End -->
+<!--Salary Sheet Modal -->
+	<div class="modal fade notice-modal" id="salarysheet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title" id="myModalLabel">Salary Sheet Download</h4>
+	            </div>
+	            <form name="salarysheet" id="salarysheet" action="${rc.contextPath}/downloadsalarysheet" method="get">
+	                <div class="modal-body">
+	                    <div class="col-xs-12 no-padding-mb">
+			            	<div class="form-group">
+			                    <label class="control-label col-sm-4">Download Type</label>
+		                        <div class="col-sm-6">          
+			                        <select name="dtype" id="dtype" class="form-control">
+				                    	<option value="xlsx" >EXCEL</option>
+				                    	<option value="pdf" >PDF</option>      
+				                    </select>
+		                        </div>
+		                        <input type="hidden" id="salshet_month" name="salshet_month" value="${curmon}"/>
+			    				<input type="hidden" id="salshet_year" name="salshet_year" value="${curyear}"/>
+		                    </div>
+		                    
+	                    </div><br/><br/>
+	                </div>
+	                <div class="modal-footer">
+	                    <div class="col-xs-6 modal-close">
+	                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel</button>
+	                    </div>
+	                    <div class="col-xs-6 modal-accept">
+	                        <button type="submit" class="btn btn-default access_close" onclick=""><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Download</button>
+	                    </div>
+	                    
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+</#if>
+<!--Salary Sheet Model End-->

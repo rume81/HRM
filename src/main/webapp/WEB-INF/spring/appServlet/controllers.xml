@@ -104,6 +104,15 @@
 		</property>
 	</bean>
 	
+	<bean class="com.webhawks.hr.controller.OnBoardingController">
+		<property name="sessionService">
+			<ref bean="sessionService" />
+		</property>
+		<property name="whrService">
+			<ref bean="whrService" />
+		</property>
+	</bean>
+	
 	<!-- Service Declaration End-->
 	<!-- All Controllers End-->
 	<bean id="userSession" class="com.webhawks.hr.model.UserSession" scope="session">
@@ -116,7 +125,7 @@
 	<bean id="cronTriggerPaySlipGenarator" class="org.springframework.scheduling.quartz.CronTriggerBean">
 	    <property name="jobDetail" ref="PaySlipGenarator"/>
 	    <!-- Fire at 11pm every 5 days every month, starting on the first day of the month. -->
-	    <property name="cronExpression" value="0 0 23 3/9 * ?" />
+	    <property name="cronExpression" value="0 0 23 3,4,5,6,7,8,9 * ?" />
 	</bean>
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 	    <property name="triggers">

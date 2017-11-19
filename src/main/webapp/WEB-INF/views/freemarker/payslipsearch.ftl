@@ -6,7 +6,7 @@
 	    	Flat No: 1st,5th,6th Floor,Avenue-12, Mirpur DOHS, Dhaka-1216,</br>
 	    	Bangladesh.  Phone: +880258070348</br>
 	    	Email: info@webhawksit.com
-	    	
+	    	<input type="hidden" id="slip_emp_id" name="slip_emp_id" value="${slip.emp_id}"/>
 	    	<input type="hidden" id="emp_id" name="emp_id" value="${emp.emp_id}"/>
 	    	<input type="hidden" id="month" name="month" value="${curmon}"/>
 	    	<input type="hidden" id="year" name="year" value="${curyear}"/>

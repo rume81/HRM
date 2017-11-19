@@ -1,3 +1,20 @@
+<script>
+    $(document).ready(function() {
+  		$.simpleWeather({
+    		location: 'Dhaka',
+    		woeid: '',
+    		unit: 'c',
+    	success: function(weather) {
+        	html = '<p>'+weather.city+'</p><p>'+weather.temp+'&deg;'+weather.units.temp+'<br/><br/>'+weather.currently+'<br/>Wind:'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</p>';
+  
+      	$("#weather").html(html);
+    },
+    error: function(error) {
+      $("#weather").html('<p>'+error+'</p>');
+    }
+  });
+});
+</script>
     <div class="container-fluid front_page">
         <div class="col-sm-8 col-sm-offset-2 col-xs-12">
             <img src="images/logo.png" alt="" class="dashboard-logo logo" />
@@ -9,9 +26,10 @@
                     
                         <p class="dashboard_heading">Profile</p>
                         <img src="images/profile.png" alt="" />
-                        <p>Good Morning!</p>
+                        <!--<p>Good Morning!</p>
                         <p>Today 27C <br/> <br/>
-                        Mostly cloud <br/> you might need an umbrella</p>
+                        Mostly cloud <br/> you might need an umbrella</p>-->
+                        <div id="weather"></div>
                         
                     
                 </li>
@@ -33,8 +51,6 @@
                         	<li>In <br>8.45am</li>
                         	<li class="out-time">Out <br> 6.30pm</li>
                         </ul>
-                        
-                    
                 </li>
                 </a>
                 <a href="${rc.contextPath}/holidays">
@@ -45,7 +61,7 @@
                         <p>Do you have any weekend plan?</p>
                 </li>
                 </a>
-                <a href="">
+                <a href="${rc.contextPath}/onboarding">
                 <li class="onboading">
                         <p class="dashboard_heading">On Boarding</p>
                         <img src="images/onboard.png" alt="" />
@@ -79,7 +95,7 @@
                 </a>
                 <a href="${rc.contextPath}/payslip">
                 <li class="payslip">
-                        <p class="dashboard_heading">Pay Slip</p>
+                        <p class="dashboard_heading">Payroll</p>
                         <img src="images/payslip.png" alt="" />
                         <p>Keep every documents safely</p>
                         <p class="payslip_notification">01</p>

@@ -23,10 +23,10 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>-->
 	
-	<!--<beans:bean class="org.springframework.web.servlet.view.XmlViewResolver">
+	<beans:bean class="org.springframework.web.servlet.view.XmlViewResolver">
 	   <beans:property name="location" value="/WEB-INF/spring-excel-views.xml"/>
 	   <beans:property name="order" value="0"/>
-	</beans:bean>-->
+	</beans:bean>
 	
 	<beans:bean class="org.springframework.web.servlet.view.XmlViewResolver">
 	   <beans:property name="location" value="/WEB-INF/spring-pdf-views.xml" />
@@ -67,9 +67,16 @@
 	  <beans:property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 	  <beans:property name="url" value="jdbc:mysql://localhost:3306/ams"/>
 	  <beans:property name="username" value="root"/>
-	  <!--<beans:property name="password" value="WebHawksIT"/>-->
 	  <beans:property name="password" value="root"/>
+	  <!--<beans:property name="password" value="WebHawksIT"/>-->
    	</beans:bean>
+   	
+   	<!--<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	  <beans:property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+	  <beans:property name="url" value="jdbc:mysql://localhost:3306/sharing_ams"/>
+	  <beans:property name="username" value="sharing_ams"/>
+	  <beans:property name="password" value="ams5212"/>
+   	</beans:bean>-->
    	
    	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
      	<beans:property name="dataSource" ref="dataSource"/>

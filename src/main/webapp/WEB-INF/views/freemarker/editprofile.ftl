@@ -106,11 +106,11 @@ $(document).ready(function() {
                 </div>
             </div>
             <div class="form-group">
-                <label for="phone" class="col-sm-3 control-label">Phone No:</label>
+                <label for="phone" class="col-sm-3 control-label">Phone No</label>
                 <div class="col-sm-3">
                     <input type="text" class="form-control" name="phone" id="phone" value="${selectedemp.mobile!''}"/>
                 </div>
-                <label for="referral" class="col-sm-3 control-label">Referral No:</label>
+                <label for="referral" class="col-sm-3 control-label">Referral No</label>
                 <div class="col-sm-3">
                     <input type="text" class="form-control" name="referral" id="referral" value="${selectedemp.refferal_no!''}"/>
                 </div>
@@ -132,7 +132,12 @@ $(document).ready(function() {
                 </div>
                 <label for="reporting_manager" class="col-sm-3 control-label">Reporting Manager</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" name="reporting_manager" id="reporting_manager" value="${selectedemp.rpt_mgr!''}" <#if usertype!="Admin" && usertype!="Talent Manager">readonly</#if>/>
+                    <select class="form-control" name="reporting_manager" id="reporting_manager">
+                    	<option value="">Please select</option>
+                        <#list allEmp as emp>
+		                	<option value="${emp.emp_id}" <#if selectedemp.rpt_mgr=emp.emp_id>selected</#if>>${emp.employee_name}</option>   
+		            	</#list>
+                    </select>
                 </div>
             </div> 
             <div class="form-group">
@@ -328,12 +333,7 @@ $(document).ready(function() {
             </div>
     </div>
     </form>
-    <div class="col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2">
-        <img src="images/front_logo_bottom.png" alt="WebHawks IT logo" class="hidden-xs"/>
-        <img src="images/WHIT-Logo-Phone.png" alt="WebHawks IT logo mobile" class="visible-xs footer-logo-mobile"/>
-        <p class="front_copyright">&copy; All Rights Reserved</p>
-    </div>
-</div>
+    
 <!-- Modal -->
 <div class="modal fade" id="employee_image" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog image_modal" role="document">
@@ -381,8 +381,12 @@ $(document).ready(function() {
 	        <input type="hidden" name="emp_id_nda" id="emp_id_nda" value="${selectedemp.emp_id!''}"/>
 	      </div>
 	      <div class="modal-footer" id="footernda"><span></span>
+	      	<div class="col-xs-6 modal-close">
 	      	<button type="button" id="imageSave" class="btn btn-primary" onclick="saveNda('${rc.contextPath}')">Save NDA</button>
+	      	</div>
+	      	<div class="col-xs-6 modal-close">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
 	      </div>
       </form>
     </div>

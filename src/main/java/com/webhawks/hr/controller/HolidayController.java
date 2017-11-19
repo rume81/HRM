@@ -98,11 +98,20 @@ public class HolidayController extends BaseController implements ApplicationCont
 		curyear = Integer.parseInt(CustomDateFormate("yyyy").format(dtnow));
 
 		int noofpreviousmon = monyear.size();
+		
+		int maxHolidayyear = whrService.getMaxHolidayYear();
+		int lastmonth = 0;
+		if(maxHolidayyear == curyear){
+			lastmonth = 12 - curmon;
+		} else if(maxHolidayyear>curyear){
+			lastmonth = 12 - curmon;
+			lastmonth = lastmonth + 12;
+		}
 
 		ModelMap mm = new ModelMap();
 		mm.addAttribute("validSession", validSession);
 		mm.addAttribute("prev", noofpreviousmon);
-		mm.addAttribute("next", 12 - curmon);
+		mm.addAttribute("next", lastmonth);
 		mm.addAttribute("emp", selecteduser);
 		mm.addAttribute("user", currentuser);
 		mm.addAttribute("curmon", curmon);

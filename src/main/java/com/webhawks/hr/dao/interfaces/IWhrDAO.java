@@ -14,8 +14,11 @@ import com.webhawks.Hawks_model.HMail;
 import com.webhawks.Hawks_model.HMonthlyStatus;
 import com.webhawks.Hawks_model.HNotice;
 import com.webhawks.Hawks_model.HPaySlip;
+import com.webhawks.Hawks_model.HPolicy;
 import com.webhawks.Hawks_model.HSalaryDetails;
+import com.webhawks.Hawks_model.HSalarySheet;
 import com.webhawks.Hawks_model.HSupportingData;
+import com.webhawks.Hawks_model.HSysProperty;
 import com.webhawks.Hawks_model.HTeam;
 import com.webhawks.Hawks_model.HTypesOfLeave;
 
@@ -111,4 +114,17 @@ public interface IWhrDAO {
     
     public List<HHoliday> getAllHoliday(boolean isDeleted,String dt);
     
+    public boolean addPolicy(HPolicy ob);
+    
+    public List<HPolicy> getAllPolicy(boolean isDeleted);
+    
+    public HPolicy getPolicy(int id);
+    
+    public boolean deletePolicy(HPolicy p);
+    
+    public HSysProperty getSysPropertyByName(String name);
+    
+    public List<HSalarySheet> getSalarySheet(Integer mon, Integer year);
+    
+    public int getMaxHolidayYear();
 }

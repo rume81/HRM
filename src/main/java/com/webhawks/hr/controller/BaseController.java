@@ -398,6 +398,9 @@ public class BaseController {
 	    else if (type.equals("APPOINTMENT"))
 		dir = new File(rootPath + File.separator + "webapps" + File.separator + "HawksHrFiles" + File.separator
 			+ "Appointment");
+	    else if (type.equals("POLICY"))
+		dir = new File(rootPath + File.separator + "webapps" + File.separator + "HawksHrFiles" + File.separator
+			+ "Policy");
 	    else
 		dir = new File(rootPath + File.separator + "webapps" + File.separator + "HawksHrFiles" + File.separator
 			+ "Profile");
@@ -418,6 +421,9 @@ public class BaseController {
 	    else if (type.equals("APPOINTMENT"))
 		fileUrl = fileUrl + File.separator + "HawksHrFiles" + File.separator + File.separator + File.separator
 			+ "Appointment" + File.separator + File.separator + File.separator + name;
+	    else if (type.equals("POLICY"))
+		fileUrl = fileUrl + File.separator + "HawksHrFiles" + File.separator + File.separator + File.separator
+		+ "Policy" + File.separator + File.separator + File.separator + name;
 	    else
 		fileUrl = fileUrl + "HawksHrFiles" + File.separator + File.separator + "Profile" + File.separator
 			+ File.separator + name;

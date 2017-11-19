@@ -35,11 +35,11 @@ $(document).ready(function() {
 	        </a>
 	    </div>
 	    <div class="col-sm-5 col-xs-12 attendance-date">
-	    	<#if user.usertype=="Admin">
+	    	<#if user.usertype=="Admin" || user.usertype=="Talent Manager">
 	    	<select class="form-control" name="monthyear" id="monthyear" onchange="getQueryData('${rc.contextPath}','Attendance')">
 		    	<option value="">Please select</option>
 		    	<#list monyear as value>
-		    		<option value="${value}" <#if selectedVal==value>Selected</#if>>${value}</option>
+		    		<option value="${value}" <#if selectedVal==value>selected='selected'</#if>>${value}</option>
 		    	</#list>
 			</select>
 			</#if>
@@ -79,13 +79,7 @@ $(document).ready(function() {
             </table>
         </div>
     </div>
-    <div class="col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2">
-        <img src="images/front_logo_bottom.png" alt="WebHawks IT logo" class="hidden-xs"/>
-	    <img src="images/WHIT-Logo-Phone.png" alt="WebHawks IT logo mobile" class="visible-xs footer-logo-mobile"/>
-        <p class="front_copyright">&copy; All Rights Reserved</p>
-    </div>
-</div>
-
+ 
 <!-- Leave Modal Start -->
 <div class="modal fade notice-modal leave_modal" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">

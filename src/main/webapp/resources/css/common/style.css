@@ -34,6 +34,11 @@ a:hover {
 .front_copyright {
     font-size: 18px;
 }
+
+.developer_copyright {
+    font-size: 12px;
+    color: #fff;
+}
 .front_page .logo {
     margin-top: 8%;
     margin-bottom: 10%;
@@ -397,7 +402,12 @@ a:hover {
     padding: 8px;
 }
 .leave-button {
-    
+    width: 170px;
+}
+
+.color-button {
+	background-color: #2e86c1 ; 
+	width: 170px;
 }
 .leave-type h4 {
     color: #000;
@@ -488,12 +498,27 @@ a:hover {
 }
 
 .date {
-    font-size: 17px;
+    font-size: 20px;
+    font-style: italic;
+	font-weight: bold;
 }
 .weekend {
 	background-color: #206303;
 }
+
 div.zabuto_calendar .table tr.calendar-month-header th span {
     font-size: 32px;
     color: #013E5B;
+}
+.onboarding {
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+.btnaddsal {
+	width: 50px;
+    height: 35px;
+    background-color: forestgreen;
+}
+.jobdesc {
+	height: 100px;
 }

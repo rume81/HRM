@@ -83,7 +83,7 @@ function readPDF(input,id) {
             $('#'+id)
                 .attr('data', e.target.result);
         };
-
+        
         reader.readAsDataURL(input.files[0]);
     }
 }
@@ -345,7 +345,7 @@ function getQueryData(base,type)
 {
 	var searchvalue = jQuery('#monthyear').val();
 	var emp_id = jQuery('#emp_id').val();
-	
+		
 	if(searchvalue!="" && emp_id != "") {
 		var pars =  emp_id+"~"+searchvalue;
 		if(type=="Attendance"){
@@ -358,8 +358,15 @@ function getQueryData(base,type)
 		} else if(type=="PaySlip"){
 			ajaxHelper.complexAjaxRequest(base+"/searchpayslip", pars, function(res){
 				 if(res!="-1"){
-					// alert(res);
 				 	jQuery('#payslipdiv').html(res);
+				 	
+				 	var empid = jQuery('#slip_emp_id').val();
+				 	
+				 	if(empid==0){
+				 		jQuery('#btn_download').prop( "disabled", true);
+				 	} else{
+				 		jQuery('#btn_download').prop( "disabled", false);
+				 	}
 				 }
 			});
 		} else{
@@ -371,6 +378,42 @@ function getQueryData(base,type)
 			});
 		}
 	}	
+	
+	if(monyear!=''){
+		var monyear = searchvalue.split(', ');
+		var year = monyear[1];
+		var mon = getIntMonth(monyear[0]);
+		
+		jQuery('#dow_month').val(mon);
+		jQuery('#dow_year').val(year);
+	}
+}
+
+function getIntMonth(mon){
+	if(mon=='January')
+		return 1;
+	else if(mon=='February')
+		return 2;
+	else if(mon=='March')
+		return 3;
+	else if(mon=='April')
+		return 4;
+	else if(mon=='May')
+		return 5;
+	else if(mon=='June')
+		return 6;
+	else if(mon=='July')
+		return 7;
+	else if(mon=='August')
+		return 8;
+	else if(mon=='September')
+		return 9;
+	else if(mon=='October')
+		return 10;
+	else if(mon=='November')
+		return 11;
+	else 
+		return 12;
 }
 
 function salaryBreakdown(){
@@ -381,8 +424,12 @@ function salaryBreakdown(){
 	var housing = ((basic * 40)/100);
 	var medical = ((gross * 9)/100);
 	var transport = ((gross * 7)/100);
-	var lunch = 0.0;
-	var tax = 0.0
+	var lunch = jQuery('#sallunch').val();
+	if(lunch=="")
+		lunch = 0.0;
+	var tax = jQuery('#saltax').val();
+	if(tax=="")
+		tax = 0.0;
 	
 	jQuery('#salbasic').val(basic);
 	jQuery('#salhousing').val(housing);
@@ -393,7 +440,7 @@ function salaryBreakdown(){
 	
 	
 }
-function addSalary(base){
+function addSalary(base,callfrom){
 	var finid 				= jQuery('#salfinid').val();
 	var gross 				= jQuery('#salgross').val();
 	var basic 				= jQuery('#salbasic').val();
@@ -482,7 +529,12 @@ function addSalary(base){
 		jQuery('#salarydetails').ajaxForm({
 			success : function(res) {
 				if (res == 'OK') {
-					window.location.href = base + "/payslip";
+					if(callfrom=='payslip')
+						window.location.href = base + "/payslip";
+					else{
+						jQuery('#package').val(gross);
+						jQuery('#salaryModal').modal('hide');
+					}
 				}
 	
 				if (res == 'ERROR') {
@@ -629,4 +681,162 @@ function deletePayslip(base){
 			 }
 		});
 	}
+}
+
+function addPolicy(base) {
+	var pname = jQuery('#pname').val();
+	var fpath = jQuery('#pdfdoc').val();
+	
+	if(pname==""){
+		jQuery('#footerpdf span').html("Please insert name for policy.");
+		return;
+	}
+	if (fpath=="") {
+		jQuery('#footerpdf span').html("Please select a PDF for save the policy.");
+		return;
+	}
+	
+	jQuery('#policyInfo').ajaxForm({
+		success : function(res) {
+			if (res == 'OK') {
+				jQuery('#pname').val('');
+				jQuery('#pdfdoc').val();
+				window.location.href = base + "/policy";
+			}
+			if (res == 'ERROR') {
+				jQuery('#footer span').html("Have some error.");
+			}
+		},
+		dataType : "text"
+	}).submit();
+}
+
+function showPolicy() {
+	var val = jQuery('#policyname').val();
+	var domain = jQuery('#domainname').val();
+	var path = val.split('~')
+	jQuery('#pdf_policy').attr({
+		data: domain+path[1]
+	});
+}
+
+function deletPolicy(base){
+	var r = confirm("Are you sure you want to permanently delete these Policy?");
+	if (r == true) {
+		var val = jQuery('#policyname').val();
+		var path = val.split('~')
+		
+		var id = path[0];
+		
+		var pars =  id;
+		
+		ajaxHelper.complexAjaxRequest(base+"/deletepolicy", pars, function(res){
+			 if(res!="-1"){
+				 window.location.href = base + "/policy";
+			 }
+		});
+	}
+}
+
+function saveOnboardingInfo(base) {
+	
+	var jobtitle 	= jQuery('#jobtitle').val();
+	var noa = jQuery('#noa').val();
+	var designation = jQuery('#designation').val();
+	var loc = jQuery('#loc').val();
+	var responsiblefor = jQuery('#responsible').val();
+	var rptmanager = jQuery('#rptmanager').val();
+	var department = jQuery('#department').val();
+	var appdate =  jQuery('#appdate').val();
+	var probationary =  jQuery('#probationary').val();
+	var compackage =  jQuery('#package').val();
+	var jobdesc =  jQuery('#jobdesc').val();
+		
+	var fo = false;
+	var msg = "Please fill required field:</br>";
+	
+	if (jobtitle == "") {
+		fo = true;
+		msg = msg + "* Job Title</br>";
+	}
+	if (noa == "") {
+		fo = true;
+		msg = msg + "* Nature of the Appointment</br>";
+	}
+	
+	if (designation == "") {
+		fo = true;
+		msg = msg + "* Designation</br>";
+	}
+	
+	if (loc == "") {
+		fo = true;
+		msg = msg + "* loc</br>";
+	}
+	
+	if (responsiblefor == "") {
+		fo = true;
+		msg = msg + "* Responsible for</br>";
+	}
+	
+	if (rptmanager == "") {
+		fo = true;
+		msg = msg + "* Reporting Manager</br>";
+	}
+	
+	if (department == "") {
+		fo = true;
+		msg = msg + "* Department</br>";
+	}
+	
+	if (appdate == "") {
+		fo = true;
+		msg = msg + "* Effective date of Appoinment</br>";
+	}
+	
+	if (probationary == "") {
+		fo = true;
+		msg = msg + "* Probationary Period</br>";
+	}
+	
+	if (compackage == "") {
+		fo = true;
+		msg = msg + "* Compensation Package</br>";
+	}
+	
+	if(jobdesc == ""){
+		fo = true;
+		msg = msg + "* Job Description</br>";
+	}
+		
+	if (fo) {
+		showMsg(msg, "Error");
+		return;
+	}
+	
+	jQuery('#onboarding_info').ajaxForm({
+		success : function(res) {
+			if (res == 'OK') {
+				window.location.href = base + "/onboarding";
+			}
+
+			if (res == 'ERROR') {
+				showMsg("Have some error.");
+			}
+		},
+		dataType : "text"
+	}).submit();
+}
+
+function getOnboardingLetter(base)
+{
+	var docname = jQuery('#docname').val();
+	
+	if(docname!="") {
+		var pars =  docname;
+		ajaxHelper.complexAjaxRequest(base+"/onboardingletter", pars, function(res){
+			 jQuery('#bodydisplay').html(res);
+			 
+		});
+	}	
 }

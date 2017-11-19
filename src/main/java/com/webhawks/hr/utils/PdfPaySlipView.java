@@ -40,8 +40,10 @@ public class PdfPaySlipView extends AbstractPdfView {
 	HPaySlip slip = (HPaySlip) model.get("slip");
 
 	String empname = slip.getEmp_name();
+	int mon = slip.getMonth();
+	int year = slip.getYear();
 		
-	String fname = "PaySlip_"+empname+".pdf";
+	String fname = "PaySlip_"+mon+"_"+year+"_"+empname+".pdf";
 	
 	response.setHeader("Content-Disposition", "attachment; filename=\""+fname+"\"");
 	

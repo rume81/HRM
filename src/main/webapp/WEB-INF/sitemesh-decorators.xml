@@ -22,6 +22,10 @@
     	<pattern>/editpayslip</pattern>
     	<pattern>/deletepayslip</pattern>
     	<pattern>/searchpayslip</pattern>
+    	<pattern>/uploadpolicy</pattern>
+    	<pattern>/deletepolicy</pattern>
+    	<pattern>/onboarding_info</pattern>
+    	<pattern>/onboardingletter</pattern>
     </excludes>
 
     <decorator name="main" page="/main.dec">

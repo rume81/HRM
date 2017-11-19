@@ -151,11 +151,13 @@ public class HomeController extends BaseController implements ApplicationContext
 	    return new ModelAndView("redirect:/");
 	}
 	HEmployee selectedEmp = getSessionService().getUserSession().getSelectedProfile();
-
+	HEmployee rptEmp = whrService.getEmployeeById(String.valueOf(selectedEmp.getRpt_mgr()), true);
+		
 	ModelMap mm = new ModelMap();
 	mm.addAttribute("validSession", validSession);
 	mm.addAttribute("currentuser", getUser());
 	mm.addAttribute("selectedemp", selectedEmp);
+	mm.addAttribute("rptEmp", rptEmp);
 
 	
 	return new ModelAndView("empprofile", mm);
@@ -222,6 +224,7 @@ public class HomeController extends BaseController implements ApplicationContext
 	String  emp = String.valueOf(getSessionService().getUserSession().getSelectedProfile().getEmp_id());
 	HEmployee logedUser = getSessionService().getUserSession().getUser();
 	HEmployee selectedEmp = whrService.getEmployeeById(emp,false);
+	List<HEmployee> allEmp = whrService.getAllEmployee(false);
 	
 	List<HSupportingData> designation = whrService.getDesignation();
 	List<HSupportingData> company = whrService.getCompany();
@@ -248,7 +251,7 @@ public class HomeController extends BaseController implements ApplicationContext
 	mm.addAttribute("department", department);
 	mm.addAttribute("allTeam", allTeam);
 	mm.addAttribute("usertype", logedUser.getUsertype());
-
+	mm.addAttribute("allEmp", allEmp);
 	
 	return new ModelAndView("editprofile", mm);
     }
@@ -259,6 +262,8 @@ public class HomeController extends BaseController implements ApplicationContext
 	boolean validSession = getSessionService().isSessionValid();
 
 	HEmployee selectedEmp = getSessionService().getUserSession().getSelectedProfile();
+	
+	List<HEmployee> allEmp = whrService.getAllEmployee(false);
 	List<HSupportingData> designation = whrService.getDesignation();
 	List<HSupportingData> company = whrService.getCompany();
 	List<HSupportingData> education = whrService.getEducation();
@@ -283,6 +288,7 @@ public class HomeController extends BaseController implements ApplicationContext
 	mm.addAttribute("utype", utype);
 	mm.addAttribute("department", department);
 	mm.addAttribute("allTeam", allTeam);
+	mm.addAttribute("allEmp", allEmp);
 
 	if (!validSession) {
 	    return new ModelAndView("redirect:/");
@@ -414,7 +420,7 @@ public class HomeController extends BaseController implements ApplicationContext
 	String joining_date = parameterMap.get("joining_date")[0];
 	String skype_id = parameterMap.get("skype_id")[0];
 	String previous_work = parameterMap.get("previous_work")[0];
-	String reporting_manager = parameterMap.get("reporting_manager")[0];
+	int reporting_manager = Integer.parseInt(parameterMap.get("reporting_manager")[0]);
 	String birthdate_real = parameterMap.get("birthdate_real")[0];
 	String birthdate_certificate = parameterMap.get("birthdate_certificate")[0];
 	String education = parameterMap.get("education")[0];
@@ -674,7 +680,7 @@ public class HomeController extends BaseController implements ApplicationContext
 	String joining_date = parameterMap.get("joining_date")[0];
 	String skype_id = parameterMap.get("skype_id")[0];
 	String previous_work = parameterMap.get("previous_work")[0];
-	String reporting_manager = parameterMap.get("reporting_manager")[0];
+	int reporting_manager = Integer.parseInt(parameterMap.get("reporting_manager")[0]);
 	String birthdate_real = parameterMap.get("birthdate_real")[0];
 	String birthdate_certificate = parameterMap.get("birthdate_certificate")[0];
 	String education = parameterMap.get("education")[0];

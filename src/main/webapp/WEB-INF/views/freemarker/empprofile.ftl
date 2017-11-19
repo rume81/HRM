@@ -105,7 +105,7 @@
                 <p class="p_designation">Reporting Manager</p>
             </div>
             <div class="col-sm-3">
-                <p class="p_value">${selectedemp.rpt_mgr!''}</p>
+                <p class="p_value">${rptEmp.employee_name!''}</p>
             </div>
         </div>
         <div class="col-sm-12">
@@ -152,11 +152,3 @@
             <button type="submit" class="btn btn-primary" onclick="EditProfile('${rc.contextPath}')">Edit Profile</button>
         </div>                    
     </div>
-    
-    <div class="col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2">
-        <img src="images/front_logo_bottom.png" alt="WebHawks IT logo" class="hidden-xs"/>
-        <img src="images/WHIT-Logo-Phone.png" alt="WebHawks IT logo mobile" class="visible-xs footer-logo-mobile"/>
-        
-        <p class="front_copyright">&copy; All Rights Reserved</p>
-    </div>
-</div>

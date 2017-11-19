@@ -51,6 +51,7 @@
 
 		<script type="text/javascript" src="${rc.contextPath}/js/redactor.min.js"></script>
 		<script type="text/javascript" src="${rc.contextPath}/js/calendar.js"></script>
+		<script type="text/javascript" src="${rc.contextPath}/js/jquery.simpleWeather.js"></script>
 		<script type="text/javascript" src="${rc.contextPath}/js/custom/custome.js"></script>
 	</head>
 	<body>

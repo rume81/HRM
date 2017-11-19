@@ -28,6 +28,7 @@ import com.webhawks.Hawks_model.HMAttendance;
 import com.webhawks.Hawks_model.HNotice;
 import com.webhawks.Hawks_model.HPaySlip;
 import com.webhawks.Hawks_model.HSalaryDetails;
+import com.webhawks.Hawks_model.HSalarySheet;
 import com.webhawks.Hawks_model.HTeam;
 import com.webhawks.hr.model.UserSession;
 import com.webhawks.hr.services.interfaces.IWhrService;
@@ -129,7 +130,7 @@ public class PaySlipController extends BaseController implements ApplicationCont
     }
     
     @RequestMapping(value = "/downlaodpayslip", method = RequestMethod.GET)
-    public ModelAndView downloadEmpDailyAttByTeam(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView downlaodpayslip(HttpServletRequest request, HttpServletResponse response) {
 	logger.info("****************************************** url= /downlaodpayslip");
 	boolean validSession = getSessionService().isSessionValid();
 	ModelMap mm = new ModelMap();
@@ -137,19 +138,53 @@ public class PaySlipController extends BaseController implements ApplicationCont
 	if (!validSession) {
 	    return new ModelAndView("redirect:/");
 	} else {
+	    HEmployee emp = getUser();
+	    HEmployee selecteduser = getSelectedUser();
+	    
 	    Map<String, String[]> parameterMap = request.getParameterMap();
 	    HPaySlip ps = new HPaySlip();
-		
-		
+	
 	    int emp_id = Integer.parseInt(parameterMap.get("dow_emp_id")[0]);	
 	    int month = Integer.parseInt(parameterMap.get("dow_month")[0]);	
 	    int year = Integer.parseInt(parameterMap.get("dow_year")[0]);
 	    
-	    //HEmployee currentuser = whrService.getEmployeeById(String.valueOf(getUser().getEmp_id()), true);
-	    //HEmployee selecteduser = whrService.getEmployeeById(String.valueOf(emp_id), true);
+	    if ((!emp.getUsertype().equalsIgnoreCase("Talent Manager")) && (selecteduser.getEmp_id()!= emp_id)) {
+		return new ModelAndView("redirect:/");
+	    }	    
+	    
 	    HPaySlip slip = whrService.getPayslip(month, year, emp_id);
 	    // return excel view
 	    return new ModelAndView("PdfPaySlipView", "slip", slip);
+	}
+
+    }
+    
+    @RequestMapping(value = "/downloadsalarysheet", method = RequestMethod.GET)
+    public ModelAndView downloadsalarysheet(HttpServletRequest request, HttpServletResponse response) {
+	logger.info("****************************************** url= /downloadsalarysheet");
+	boolean validSession = getSessionService().isSessionValid();
+	ModelMap mm = new ModelMap();
+
+	if (!validSession) {
+	    return new ModelAndView("redirect:/");
+	} else {
+	    HEmployee emp = getUser();
+	    if (!emp.getUsertype().equalsIgnoreCase("Talent Manager")) {
+		return new ModelAndView("redirect:/");
+	    }
+	    Map<String, String[]> parameterMap = request.getParameterMap();		
+		
+	    String action = parameterMap.get("dtype")[0];	
+	    int month = Integer.parseInt(parameterMap.get("salshet_month")[0]);	
+	    int year = Integer.parseInt(parameterMap.get("salshet_year")[0]);
+	    
+	    List<HSalarySheet> slips = whrService.getSalarySheet(month, year);
+	    // return excel view
+	    if (action.equalsIgnoreCase("pdf")) {
+		return new ModelAndView("PdfPaySlipView", "slip", slips);
+	    } else {
+		return new ModelAndView("SalarySheetExcel", "slip", slips);
+	    }
 	}
 
     }

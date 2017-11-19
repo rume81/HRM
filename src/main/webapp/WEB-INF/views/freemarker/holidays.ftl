@@ -56,8 +56,4 @@
     </div><!--(./COntainer")-->
 
  
-    <div class="col-xs-4 col-xs-offset-5 footer">
-        <img src="images/front_logo_bottom.png" />
-        <p class="front_copyright">&copy; All Rights Reserved</p>
-    </div>
-</div>
+  

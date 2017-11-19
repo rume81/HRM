@@ -109,7 +109,13 @@
                     </div>
                     <label for="reporting_manager" class="col-sm-3 control-label">Reporting Manager</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" name="reporting_manager" id="reporting_manager" />
+                        <!--<input type="text" class="form-control" name="reporting_manager" id="reporting_manager" />-->
+                        <select class="form-control" name="reporting_manager" id="reporting_manager">
+                    	<option value="">Please select</option>
+                        <#list allEmp as emp>
+		                	<option value="${emp.emp_id}" >${emp.employee_name}</option>   
+		            	</#list>
+                    </select>
                     </div>
                 </div> 
                 <div class="form-group">
@@ -263,8 +269,4 @@
                 </div>
             </form>
         </div>
-        <div class="col-xs-3 col-xs-offset-5">
-            <img src="images/front_logo_bottom.png" />
-            <p class="front_copyright">&copy; All Rights Reserved</p>
-        </div>
-    </div>
+        

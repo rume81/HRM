@@ -23,8 +23,11 @@ import com.webhawks.Hawks_model.HMail;
 import com.webhawks.Hawks_model.HMonthlyStatus;
 import com.webhawks.Hawks_model.HNotice;
 import com.webhawks.Hawks_model.HPaySlip;
+import com.webhawks.Hawks_model.HPolicy;
 import com.webhawks.Hawks_model.HSalaryDetails;
+import com.webhawks.Hawks_model.HSalarySheet;
 import com.webhawks.Hawks_model.HSupportingData;
+import com.webhawks.Hawks_model.HSysProperty;
 import com.webhawks.Hawks_model.HTeam;
 import com.webhawks.Hawks_model.HTypesOfLeave;
 import com.webhawks.hr.services.interfaces.IWhrService;
@@ -730,6 +733,11 @@ public class WhrService implements IWhrService {
     }
     
     @Override
+    public List<HSalarySheet> getSalarySheet(Integer mon, Integer year){
+	return whrDao.getSalarySheet(mon, year);
+    }
+    
+    @Override
     public HMonthlyStatus getMonthlyStatus(int mon, int year, int emp_id){
 	return whrDao.getMonthlyStatus(mon, year, emp_id);
     }
@@ -813,5 +821,35 @@ public class WhrService implements IWhrService {
 	}
 	
 	return holiday;
+    }
+    
+    @Override
+    public boolean addPolicy(HPolicy obj){
+	return whrDao.addPolicy(obj);
+    }
+    
+    @Override
+    public List<HPolicy> getAllPolicy(boolean isDeleted){
+	return whrDao.getAllPolicy(isDeleted);
+    }
+    
+    @Override
+    public HPolicy getPolicy(int id){
+	return whrDao.getPolicy(id);
+    }
+    
+    @Override
+    public boolean deletePolicy(HPolicy p){
+	return whrDao.deletePolicy(p);
+    }
+    
+    @Override
+    public HSysProperty getSysPropertyByName(String name){
+	return whrDao.getSysPropertyByName(name);
+    }
+    
+    @Override
+    public int getMaxHolidayYear(){
+    	return whrDao.getMaxHolidayYear();
     }
 }
